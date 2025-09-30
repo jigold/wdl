@@ -1,0 +1,11 @@
+version: 1.2 # The .dockstore.yml schema version
+workflows:
+  - subclass: WDL
+    primaryDescriptorPath: /mt_to_vcf_or_bgen/mt_to_vcf_or_bgen.wdl
+    testParameterFiles:
+      - /mt_to_vcf_or_bgen/inputs.json
+    readMePath: /mt_to_vcf_or_bgen/README.md
+    authors:
+      - name: Jackie Goldstein
+        email: jigold@broadinstitute.org
+    topic: Hail pipeline to convert MT to VCF or BGEN locally
