@@ -84,10 +84,10 @@ mt.count()
 
 if output_format == 'vcf':
     hl.export_vcf(mt, f'{output_base}.vcf', overwrite=True)
-    hl.import_vcf(f'{output_base}.vcf')._force_count()
+    hl.import_vcf(f'{output_base}.vcf').show()
 elif output_format == 'bgen':
     mt.write(f'{output_base}.bgen', index=True, overwrite=True)
-    hl.import_bgen(f'{output_base}.bgen')._force_count()
+    hl.import_bgen(f'{output_base}.bgen').show()
 else:
     print(f'Unsupported format: {output_format}', file=sys.stderr)
     sys.exit(1)
