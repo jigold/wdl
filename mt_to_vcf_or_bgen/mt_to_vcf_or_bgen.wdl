@@ -11,19 +11,17 @@ task GlobCloudPaths {
 
     command <<<
         # 1. List all files recursively and filter for files ending in .mt
-        gsutil ls -r "${base_uri}" | grep -E '\.mt$' > all_mt_paths.txt
+        gsutil ls -r "~{base_uri}" | grep -E '\.mt$' > all_mt_paths.txt
 
         # 2. Apply chromosome/specific pattern filter if the pattern is NOT empty
-        if [ -n "${pattern}" ]; then
-            # Use 'grep -i' for case-insensitive search (optional, but robust)
-            grep -i "${pattern}" all_mt_paths.txt > cloud_paths.txt
+        if [ -n "~{pattern}" ]; then
+            grep -i "~{pattern}" all_mt_paths.txt > cloud_paths.txt
         else
-            # If no pattern is provided, use the unfiltered list
             cp all_mt_paths.txt cloud_paths.txt
         fi
 
         if ! [ -s cloud_paths.txt ]; then
-            echo "Warning: No matrix tables found matching directory or pattern: ${pattern}."
+            echo "Warning: No matrix tables found matching directory or pattern: ~{pattern}."
         fi
     >>>
 
@@ -55,10 +53,10 @@ task ConvertMT {
     command <<<
         set -ex
 
-        INPUT_MT="${mt_file}"
-        OUTPUT_BASE="${output_dir_root}${prefix}"
-        FORMAT="${output_format}"
-        CPU="${cpu_count}"
+        INPUT_MT="~{mt_file}"
+        OUTPUT_BASE="~{output_dir_root}~{prefix}"
+        FORMAT="~{output_format}"
+        CPU="~{cpu_count}"
 
         echo "Converting remote MT ${INPUT_MT} to ${FORMAT} format using Spark local mode."
 
@@ -82,24 +80,23 @@ hl.init(backend='spark',
 mt = hl.read_matrix_table(input_mt)
 mt.count()
 
-#if output_format == 'vcf':
-#    hl.export_vcf(mt, f'{output_base}.vcf', overwrite=True)
-#    # NOTE: The subsequent import/force_count is validation,
-#    # but not required for a production export task. Keeping it for now.
-#    hl.import_vcf(f'{output_base}.vcf')._force_count()
-#elif output_format == 'bgen':
-#    mt.write(f'{output_base}.bgen', index=True, overwrite=True)
-#    hl.import_bgen(f'{output_base}.bgen')._force_count()
-#else:
-#    print(f'Unsupported format: {output_format}', file=sys.stderr)
-#    sys.exit(1)
+if output_format == 'vcf':
+    hl.export_vcf(mt, f'{output_base}.vcf', overwrite=True)
+    # Validate export
+    hl.import_vcf(f'{output_base}.vcf')._force_count()
+elif output_format == 'bgen':
+    mt.write(f'{output_base}.bgen', index=True, overwrite=True)
+    hl.import_bgen(f'{output_base}.bgen')._force_count()
+else:
+    print(f'Unsupported format: {output_format}', file=sys.stderr)
+    sys.exit(1)
 
 print(f'Successfully exported to {output_base}.{output_format}')
-
 " "${INPUT_MT}" "${OUTPUT_BASE}" "${FORMAT}" "${CPU}"
 
         touch success.txt
     >>>
+
 
     output {
         File output_file = "success.txt"
