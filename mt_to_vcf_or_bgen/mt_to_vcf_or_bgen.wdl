@@ -11,7 +11,7 @@ task GlobCloudPaths {
 
     command <<<
         # 1. List all files recursively and filter for files ending in .mt
-        gsutil ls -r "~{base_uri}" | grep -E '\.mt/$' > all_mt_paths.txt
+        gsutil ls "~{base_uri}" | grep -E '\.mt/$' > all_mt_paths.txt
 
         cat all_mt_paths.txt
 
