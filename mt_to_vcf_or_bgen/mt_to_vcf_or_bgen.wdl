@@ -13,6 +13,8 @@ task GlobCloudPaths {
         # 1. List all files recursively and filter for files ending in .mt
         gsutil ls -r "~{base_uri}" | grep -E '\.mt$' > all_mt_paths.txt
 
+        cat all_mt_paths.txt
+
         # 2. Apply chromosome/specific pattern filter if the pattern is NOT empty
         if [ -n "~{pattern}" ]; then
             grep -i "~{pattern}" all_mt_paths.txt > cloud_paths.txt
