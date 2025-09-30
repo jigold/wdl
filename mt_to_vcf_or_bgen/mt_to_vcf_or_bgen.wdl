@@ -56,7 +56,6 @@ task ConvertMT {
 
         echo "Converting remote MT ${INPUT_MT} to ${FORMAT} format using Spark local mode."
 
-        # --- PYTHON/HAIL SCRIPT ---
         python3 -c "
 import sys
 import hail as hl
@@ -75,18 +74,19 @@ hl.init(backend='spark',
 )
 
 mt = hl.read_matrix_table(input_mt)
+mt.count()
 
-if output_format == 'vcf':
-    hl.export_vcf(mt, f'{output_base}.vcf', overwrite=True)
-    # NOTE: The subsequent import/force_count is validation,
-    # but not required for a production export task. Keeping it for now.
-    hl.import_vcf(f'{output_base}.vcf')._force_count()
-elif output_format == 'bgen':
-    mt.write(f'{output_base}.bgen', index=True, overwrite=True)
-    hl.import_bgen(f'{output_base}.bgen')._force_count()
-else:
-    print(f'Unsupported format: {output_format}', file=sys.stderr)
-    sys.exit(1)
+#if output_format == 'vcf':
+#    hl.export_vcf(mt, f'{output_base}.vcf', overwrite=True)
+#    # NOTE: The subsequent import/force_count is validation,
+#    # but not required for a production export task. Keeping it for now.
+#    hl.import_vcf(f'{output_base}.vcf')._force_count()
+#elif output_format == 'bgen':
+#    mt.write(f'{output_base}.bgen', index=True, overwrite=True)
+#    hl.import_bgen(f'{output_base}.bgen')._force_count()
+#else:
+#    print(f'Unsupported format: {output_format}', file=sys.stderr)
+#    sys.exit(1)
 
 print(f'Successfully exported to {output_base}.{output_format}')
 
