@@ -84,7 +84,6 @@ mt.count()
 
 if output_format == 'vcf':
     hl.export_vcf(mt, f'{output_base}.vcf', overwrite=True)
-    # Validate export
     hl.import_vcf(f'{output_base}.vcf')._force_count()
 elif output_format == 'bgen':
     mt.write(f'{output_base}.bgen', index=True, overwrite=True)
