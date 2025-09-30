@@ -31,7 +31,11 @@ task GlobCloudPaths {
         File paths_file = "cloud_paths.txt"
     }
 
-    runtime { docker: "google/cloud-sdk:latest" }
+    runtime {
+        docker: "google/cloud-sdk:latest"
+        preemptible: 3
+        zones: ["us-central1-a"]
+    }
 }
 
 # ------------------------------------------------
@@ -50,9 +54,9 @@ task ConvertMT {
 
     command <<<
         set -ex
-        
+
         INPUT_MT="${mt_file}"
-        OUTPUT_BASE="${output_dir_root}/${prefix}"
+        OUTPUT_BASE="${output_dir_root}${prefix}"
         FORMAT="${output_format}"
         CPU="${cpu_count}"
 
@@ -106,6 +110,8 @@ print(f'Successfully exported to {output_base}.{output_format}')
         cpu: cpu_count
         memory: "${memory_gb} GB"
         disks: "local-disk 10 HDD"
+        preemptible: 3
+        zones: ["us-central1-a"]
     }
 }
 
