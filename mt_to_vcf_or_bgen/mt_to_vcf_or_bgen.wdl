@@ -74,8 +74,8 @@ cpu = sys.argv[4]
 hl.init(backend='spark',
         master=f'local[{cpu}]',
         spark_conf={
-            'spark.driver.memory': '7.5g',
-            'spark.driver.maxResultSize': '7.5g'
+            'spark.driver.memory': '7g',
+            'spark.driver.maxResultSize': '7g'
         }
 )
 
