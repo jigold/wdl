@@ -49,6 +49,8 @@ task ConvertMT {
     String prefix = basename(mt_file, ".mt")
 
     command <<<
+        set -ex
+        
         INPUT_MT="${mt_file}"
         OUTPUT_BASE="${output_dir_root}/${prefix}"
         FORMAT="${output_format}"
@@ -91,13 +93,12 @@ mt.count()
 print(f'Successfully exported to {output_base}.{output_format}')
 
 " "${INPUT_MT}" "${OUTPUT_BASE}" "${FORMAT}" "${CPU}"
+
+        touch success.txt
     >>>
 
     output {
-        File output_file = select_first([
-            if (output_format == "vcf") then "${output_dir_root}/${prefix}.vcf" else None,
-            if (output_format == "bgen") then "${output_dir_root}/${prefix}.bgen" else None
-        ])
+        File output_file = "success.txt"
     }
 
     runtime {
@@ -141,6 +142,6 @@ workflow MatrixTableConversion {
     }
 
     output {
-        Array[File] converted_files = ConvertMT.output_file
+        Array[File?] converted_files = ConvertMT.output_file
     }
 }
