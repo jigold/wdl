@@ -55,7 +55,7 @@ task ConvertMT {
     command <<<
         set -ex
 
-        INPUT_MT="~{mt_file}"
+        INPUT_MT="$(echo ~{mt_file} | sed 's:/*$::')"
         OUTPUT_BASE="~{output_dir_root}~{prefix}"
         FORMAT="~{output_format}"
         CPU="~{cpu_count}"
