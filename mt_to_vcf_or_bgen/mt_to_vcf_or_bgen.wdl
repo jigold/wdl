@@ -17,7 +17,7 @@ task GlobCloudPaths {
 
         # 2. Apply chromosome/specific pattern filter if the pattern is NOT empty
         if [ -n "~{pattern}" ]; then
-            grep -i "~{pattern}" all_mt_paths.txt > cloud_paths.txt
+            grep -i "~{pattern}\.mt" all_mt_paths.txt > cloud_paths.txt
         else
             cp all_mt_paths.txt cloud_paths.txt
         fi
