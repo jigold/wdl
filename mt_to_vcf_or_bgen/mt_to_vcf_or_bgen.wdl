@@ -1,7 +1,7 @@
 version 1.0
 
 # ------------------------------------------------
-# TASK 1: Find all Matrix Tables in the input directory (Cloud-aware)
+# TASK 1: Find all Matrix Tables in the input directory
 # ------------------------------------------------
 task GlobCloudPaths {
     input {
@@ -84,7 +84,7 @@ mt.count()
 
 if output_format == 'vcf':
     hl.export_vcf(mt, f'{output_base}.vcf.bgz', tabix=True)
-    hl.import_vcf(f'{output_base}.vcf.bgz').show()
+    hl.import_vcf(f'{output_base}.vcf.bgz', reference_genome=mt.locus.dtype.reference_genome.name).show()
 elif output_format == 'bgen':
     hl.export_bgen(mt, output_base)
     hl.index_bgen(f'{output_base}.bgen',
@@ -126,7 +126,7 @@ workflow MatrixTableConversion {
         String output_root_path
         String export_format = "vcf"
         Int num_cpus = 8
-        Int total_memory_gb = 28
+        Int total_memory_gb = 64
     }
 
     call GlobCloudPaths {
