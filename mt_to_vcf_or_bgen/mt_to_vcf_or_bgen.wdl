@@ -107,7 +107,7 @@ print(f'Successfully exported to {output_base}.{output_format}')
         docker: "hailgenetics/hail:0.2.136"
         cpu: cpu_count
         memory: "${memory_gb} GB"
-        disks: "local-disk 10 HDD"
+        disks: "local-disk 50 HDD"
         preemptible: 3
         zones: ["us-central1-a"]
     }
