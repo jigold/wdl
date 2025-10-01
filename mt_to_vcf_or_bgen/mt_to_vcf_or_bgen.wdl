@@ -87,7 +87,9 @@ if output_format == 'vcf':
     hl.import_vcf(f'{output_base}.vcf.bgz').show()
 elif output_format == 'bgen':
     hl.export_bgen(mt, output_base)
-    hl.index_bgen(f'{output_base}.bgen', reference_genome=mt.locus.dtype.reference_genome.name)
+    hl.index_bgen(f'{output_base}.bgen',
+                  reference_genome=mt.locus.dtype.reference_genome.name,
+                  index_file_map={f'{output_base}.bgen': f'{output_base}.bgen.idx2'})
     hl.import_bgen(f'{output_base}.bgen', entry_fields=['dosage']).show()
 else:
     print(f'Unsupported format: {output_format}', file=sys.stderr)
