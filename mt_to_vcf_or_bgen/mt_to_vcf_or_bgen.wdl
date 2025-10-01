@@ -83,11 +83,11 @@ mt = hl.read_matrix_table(input_mt)
 mt.count()
 
 if output_format == 'vcf':
-    hl.export_vcf(mt, f'{output_base}.vcf', overwrite=True)
-    hl.import_vcf(f'{output_base}.vcf').show()
+    hl.export_vcf(mt, f'{output_base}.vcf.bgz', tabix=True)
+    hl.import_vcf(f'{output_base}.vcf.bgz').show()
 elif output_format == 'bgen':
-    mt.write(f'{output_base}.bgen', index=True, overwrite=True)
-    hl.import_bgen(f'{output_base}.bgen').show()
+    hl.export_bgen(mt, output_base)
+    hl.import_bgen(f'{output_base}.bgen', entry_fields=['dosage']).show()
 else:
     print(f'Unsupported format: {output_format}', file=sys.stderr)
     sys.exit(1)
