@@ -60,8 +60,7 @@ task ConvertMT {
         apt-get update && apt-get install -y curl unzip
         curl -O https://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20250819.zip
         unzip plink_linux_x86_64_20250819.zip -d ${PLINK_DIR}
-        mv plink /usr/bin/
-
+        
         export PATH=${PLINK_DIR}:${PATH}
 
         INPUT_MT="$(echo ~{mt_file} | sed 's:/*$::')"
