@@ -60,7 +60,7 @@ task ConvertMT {
         apt-get update && apt-get install -y curl unzip
         curl -O https://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20250819.zip
         unzip plink_linux_x86_64_20250819.zip -d ${PLINK_DIR}
-        
+
         export PATH=${PLINK_DIR}:${PATH}
 
         INPUT_MT="$(echo ~{mt_file} | sed 's:/*$::')"
@@ -85,7 +85,7 @@ hl.init(backend='spark',
 )
 
 mt = hl.read_matrix_table(input_mt)
-hl.export_bgen(mt, "/exported_data.bgen")
+hl.export_bgen(mt, '/exported_data.bgen')
 
 " "${INPUT_MT}" "${CPU}"
 
