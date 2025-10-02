@@ -75,8 +75,7 @@ import sys
 import hail as hl
 
 input_mt = sys.argv[1]
-output_base = sys.argv[2]
-cpu = sys.argv[3]
+cpu = sys.argv[2]
 
 hl.init(backend='spark',
         master=f'local[{cpu}]',
@@ -89,8 +88,7 @@ hl.init(backend='spark',
 mt = hl.read_matrix_table(input_mt)
 hl.export_bgen(mt, "/exported_data.bgen")
 
-print(f'Successfully exported to {output_base}.{output_format}')
-" "${INPUT_MT}" "${OUTPUT_BASE}" "${CPU}"
+" "${INPUT_MT}" "${CPU}"
 
         plink --bgen /exported_data.bgen --sample /exported_data.sample --head --out validation_check
 
