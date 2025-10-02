@@ -58,8 +58,10 @@ task ConvertMT {
         mkdir -p ${PLINK_DIR}
 
         apt-get update && apt-get install -y curl unzip
-        curl -O https://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20250819.zip
-        unzip plink_linux_x86_64_20250819.zip -d ${PLINK_DIR}
+        # curl -O https://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20250819.zip
+        # unzip plink_linux_x86_64_20250819.zip -d ${PLINK_DIR}
+        curl -O https://s3.amazonaws.com/plink2-assets/plink2_linux_x86_64_20250920.zip
+        unzip plink2_linux_x86_64_20250819.zip -d ${PLINK_DIR}
 
         export PATH=${PLINK_DIR}:${PATH}
 
@@ -89,7 +91,7 @@ hl.export_bgen(mt, '/exported_data')
 
 " "${INPUT_MT}" "${CPU}"
 
-        plink --bgen /exported_data.bgen \
+        plink2 --bgen /exported_data.bgen \
             --sample /exported_data.sample \
             --maf 0.05 \
             --make-bed \
