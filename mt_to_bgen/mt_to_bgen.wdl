@@ -47,6 +47,9 @@ task ConvertMT {
         String output_dir_root
         Int cpu_count
         Int memory_gb
+        Int storage_gb
+        Int preemptible
+        Int max_retries
     }
 
     String prefix = basename(mt_file, ".mt")
@@ -61,7 +64,7 @@ task ConvertMT {
         # curl -O https://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20250819.zip
         # unzip plink_linux_x86_64_20250819.zip -d ${PLINK_DIR}
         curl -O https://s3.amazonaws.com/plink2-assets/plink2_linux_x86_64_20250920.zip
-        unzip plink2_linux_x86_64_20250819.zip -d ${PLINK_DIR}
+        unzip plink2_linux_x86_64_20250920.zip -d ${PLINK_DIR}
 
         export PATH=${PLINK_DIR}:${PATH}
 
@@ -112,10 +115,10 @@ hl.export_bgen(mt, '/exported_data')
         docker: "hailgenetics/hail:0.2.136"
         cpu: cpu_count
         memory: "${memory_gb} GB"
-        disks: "local-disk 50 HDD"
-        preemptible: 2
+        disks: "local-disk ${storage_gb} HDD"
+        preemptible: preemptible
         zones: ["us-central1-a"]
-#        maxRetries: 1
+#        maxRetries: max_retries
     }
 }
 
@@ -129,6 +132,9 @@ workflow MatrixTableConversion {
         String output_root_path
         Int num_cpus = 16
         Int total_memory_gb = 64
+        Int storage_gb = 50
+        Int preemptible = 2
+        Int max_retries = 1
     }
 
     call GlobCloudPaths {
@@ -145,7 +151,10 @@ workflow MatrixTableConversion {
                 mt_file = single_mt_uri,
                 output_dir_root = output_root_path,
                 cpu_count = num_cpus,
-                memory_gb = total_memory_gb
+                memory_gb = total_memory_gb,
+                storage_gb = storage_gb,
+                preemptible = preemptible,
+                max_retries = max_retries
         }
     }
 

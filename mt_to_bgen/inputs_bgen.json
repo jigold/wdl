@@ -3,5 +3,7 @@
   "MatrixTableConversion.output_root_path": "$(this.workspace.bucket)/test/imputation-bgen/",
   "MatrixTableConversion.pattern": "",
   "MatrixTableConversion.num_cpus": 16,
-  "MatrixTableConversion.total_memory_gb": 64
+  "MatrixTableConversion.total_memory_gb": 128,
+  "MatrixTableConversion.preemptible": 2,
+  "MatrixTableConversion.max_retries": 1
 }
