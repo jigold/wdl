@@ -120,7 +120,7 @@ hl.export_bgen(mt, '/exported_data')
         disks: "local-disk ${storage_gb} HDD"
         preemptible: preemptible
         zones: ["us-central1-a"]
-#        maxRetries: max_retries
+        maxRetries: max_retries
     }
 }
 

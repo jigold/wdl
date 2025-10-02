@@ -92,19 +92,16 @@ hl.init(backend='spark',
 )
 
 mt = hl.read_matrix_table(input_mt)
-mt = hl.split_multi_hts(mt)
-hl.export_plink(mt, '/exported_data')
+hl.export_vcf(mt, '/exported_data.vcf.bgz', tabix=True)
 
 " "${INPUT_MT}" "${CPU}"
 
-        plink2 --bfile /exported_data \
+        plink2 --vcf /exported_data.vcf.bgz \
             --maf 0.05 \
             --make-bed \
             --out validation_check
 
-        gsutil cp /exported_data.bed "${OUTPUT_BASE}.bed"
-        gsutil cp /exported_data.bim "${OUTPUT_BASE}.bim"
-        gsutil cp /exported_data.fam "${OUTPUT_BASE}.fam"
+        gsutil cp /exported_data.vcf.bgz "${OUTPUT_BASE}.vcf.bgz"
 
         touch success.txt
     >>>

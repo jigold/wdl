@@ -1,6 +1,6 @@
 {
   "MatrixTableConversion.mt_directory": "$(this.workspace.bucket)/imputation/share/",
-  "MatrixTableConversion.output_root_path": "$(this.workspace.bucket)/test/imputation-plink/",
+  "MatrixTableConversion.output_root_path": "$(this.workspace.bucket)/test/imputation-vcf/",
   "MatrixTableConversion.pattern": "",
   "MatrixTableConversion.num_cpus": 16,
   "MatrixTableConversion.total_memory_gb": 128,
