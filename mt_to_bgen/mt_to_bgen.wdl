@@ -94,11 +94,10 @@ hl.export_bgen(mt, '/exported_data')
 
 " "${INPUT_MT}" "${CPU}"
 
-        plink2 --bgen /exported_data.bgen \
+        plink2 --bgen /exported_data.bgen ref-unknown \
             --sample /exported_data.sample \
             --maf 0.05 \
             --make-bed \
-            --data ref-unknown \
             --out validation_check
 
         gsutil cp /exported_data.bgen "${OUTPUT_BASE}.bgen"
