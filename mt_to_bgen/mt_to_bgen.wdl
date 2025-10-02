@@ -113,6 +113,7 @@ hl.export_bgen(mt, '/exported_data.bgen')
         disks: "local-disk 50 HDD"
         preemptible: 2
         zones: ["us-central1-a"]
+        maxRetries: 1
     }
 }
 
