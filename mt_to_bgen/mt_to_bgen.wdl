@@ -85,7 +85,7 @@ hl.init(backend='spark',
 )
 
 mt = hl.read_matrix_table(input_mt)
-hl.export_bgen(mt, '/exported_data.bgen')
+hl.export_bgen(mt, '/exported_data')
 
 " "${INPUT_MT}" "${CPU}"
 
@@ -113,7 +113,7 @@ hl.export_bgen(mt, '/exported_data.bgen')
         disks: "local-disk 50 HDD"
         preemptible: 2
         zones: ["us-central1-a"]
-        maxRetries: 1
+#        maxRetries: 1
     }
 }
 
