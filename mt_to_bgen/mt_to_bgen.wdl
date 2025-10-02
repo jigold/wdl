@@ -61,12 +61,14 @@ task ConvertMT {
         mkdir -p ${PLINK_DIR}
 
         apt-get update && apt-get install -y curl unzip
-        # curl -O https://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20250819.zip
-        # unzip plink_linux_x86_64_20250819.zip -d ${PLINK_DIR}
+
         curl -O https://s3.amazonaws.com/plink2-assets/plink2_linux_x86_64_20250920.zip
         unzip plink2_linux_x86_64_20250920.zip -d ${PLINK_DIR}
-
         export PATH=${PLINK_DIR}:${PATH}
+
+        curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz
+        tar -xf google-cloud-cli-linux-x86_64.tar.gz
+        export PATH=$PWD/google-cloud-sdk/bin:$PATH
 
         INPUT_MT="$(echo ~{mt_file} | sed 's:/*$::')"
         OUTPUT_BASE="~{output_dir_root}~{prefix}"
