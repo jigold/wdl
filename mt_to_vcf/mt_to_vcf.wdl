@@ -74,7 +74,7 @@ task ConvertMT {
         OUTPUT_BASE="~{output_dir_root}~{prefix}"
         CPU="~{cpu_count}"
 
-        echo "Converting remote MT ${INPUT_MT} to bgen format using Spark local mode."
+        echo "Converting remote MT ${INPUT_MT} to vcf format using Spark local mode."
 
         python3 -c "
 import sys
@@ -118,7 +118,7 @@ hl.export_vcf(mt, '/exported_data.vcf.bgz', tabix=True)
         disks: "local-disk ${storage_gb} HDD"
         preemptible: preemptible
         zones: ["us-central1-a"]
-#        maxRetries: max_retries
+        maxRetries: max_retries
     }
 }
 
